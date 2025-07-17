@@ -20,11 +20,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-olihiwxx*p&5u=%pmm!%*x+t=6_-2u(eyzkm80+xry8(((tf#b'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -40,11 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #### 내가 추가한 앱 ####
     'users', # 사용자 앱 #
-    'django.contrib.sites', # 소셜 로그인과 관련된 앱들 #
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    #'django.contrib.sites', # 소셜 로그인과 관련된 앱들 #
+    #'allauth',
+    #'allauth.account',
+    #'allauth.socialaccount',
+    #'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -132,10 +127,10 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ### 내가 추가한 커스텀 유저 모델 ###
-AUTH__USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
-SECRET_KEY = config('SECRETE_KEY')
+SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', cast=bool)
 
 GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID')
-GOOGLE_CLIENT_SECRETE = config('GOOGLE_CLIENT_SECRETE')
+GOOGLE_CLIENT_SECRET = config('GOOGLE_CLIENT_SECRET')
