@@ -1,0 +1,59 @@
+<div class="game_card">
+    {% if user == game.attacker %}
+        <h2>{{ game.id}} - {{ game.attacker.username}} VS {{ game.defender.username }}</h2>
+    {% else %}
+        <h2>{{ game.id}} - {{ game.defender.username}} VS {{ game.attacker.username }}</h2>
+    
+    <p>진행 상태: {{status}}</p>
+
+    <!-- 자신이 공격한 게임은 상대가 반격하지 않은 상태 -->
+    {% if status == "진행중" and is_attacker} 
+        <p>나 : {{game.attacker.user_score}}</p>
+        <form action = "{% url 'games:cancel' game.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">게임 취소</button>
+        </form>
+        <form action = "{% url 'games:list' game.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">전적목록</button>
+        </form>
+    <!--  다른 유저가 자신에게 게임을 걸어온 상황 -->
+    {% elif status == "반격 가능" and is_defender%}
+    <a href="{% url 'games:counter_attack' game.id%}">반격하러 가기</a>
+   <a href="{% url 'games:list' %}" class="btn">전적목록</a>
+
+    <!-- 게임 종료 -->
+    {% elif status == "게임 종료" %}
+    <p>
+        {% if game.rule == False %}
+            <p>숫자가 작은 사람이 이깁니다.</p>
+        {% else %}
+            <p>숫자가 큰 사람이 이깁니다.</p>
+        {% endif %}
+
+        {% if user == game.attacker %}
+            <p>{{ game.attacker.username}} : {{ game.attacker.user_score}}</p>
+            <p>{{ game.defender.username}} : {{ game.defender.user_score}}</p>
+        {% else %}
+            <p>{{ game.defender.username}} : {{ game.defender.user_score}}</p>
+            <p>{{ game.attacker.username}} : {{ game.attacker.user_score}}</p>
+        {% endif %}
+
+        {% if game.winner%}
+            {% if game.winner == user.username%}
+                <p>결과 : 승리</p>
+            {% else %}
+                <p>결과 : 패배</p>
+            {% endif %}
+        {% else %}
+            <p>결과 : 무승부</p>
+        {% endif %}
+
+        <p>점수 : {{user.user_score}}</p>
+
+        <form actions = "{% url 'games:list' game.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">전적목록</button>
+        </form>
+    </p>
+</div>
