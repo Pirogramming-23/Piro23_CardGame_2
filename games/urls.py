@@ -3,4 +3,5 @@ from .views import *
 
 urlpatterns = [
     path("create/", games_create),
+    path("<int:pk>/cnt_attack", counter_attack),
 ]
