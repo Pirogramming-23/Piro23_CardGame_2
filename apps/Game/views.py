@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Game
+from .models import Game,User
 
 # Create your views here.
 def detail(request,pk):
@@ -28,3 +28,10 @@ def delete(request,pk):
     if request.user == game.attacker and game.defender is None:
         game.delete()
     return redirect('games:main')
+
+def ranking(request):
+    users = User.objects.all().order_by('-user_score')[:3]
+    context ={
+        'users':users
+    }
+    return render(request,'games/ranking.html',context)

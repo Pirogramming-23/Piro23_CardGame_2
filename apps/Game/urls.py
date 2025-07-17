@@ -6,4 +6,5 @@ app_name = "Game"
 urlpatterns = [
     path('detail/<int:pk>',detail,name='detail'),
     path('delete/<int:pk>',delete,name="delete"),
+    path('ranking',ranking,name="ranking"),
 ]
