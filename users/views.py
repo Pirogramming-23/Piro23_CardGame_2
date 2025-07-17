@@ -2,4 +2,6 @@ from django.shortcuts import render
 
 # Create your views here.
 def main_view(request):
-    return render(request, 'users/main.html')
+    if request.user.is_authenticated:
+        return render(request, 'users/main_after.html')
+    return render(request, 'users/main_before.html')
