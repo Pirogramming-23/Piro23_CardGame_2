@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from .models import Game
 
 # Create your views here.
@@ -22,3 +22,9 @@ def detail(request,pk):
     }
     return render(request,'games/detail.html',context)
 
+# 유저는 자신이 공격한 게임(상대가 반격하지 않은 경우에 한해) 삭제 가능
+def delete(request,pk):
+    game = Game.objects.get(id=pk)
+    if request.user == game.attacker and game.defender is None:
+        game.delete()
+    return redirect('games:main')
