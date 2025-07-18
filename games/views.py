@@ -94,7 +94,7 @@ def counter_attack(request, upk, gpk):
                 game.loser.save()
         game.is_over = True
         game.save()
-        return redirect('games:games_list', upk=request.user.pk) 
+        return redirect('games:detail', pk=game.pk) 
     return render(request, "counter_attack.html", {"numbers":numbers})
 
 def games_result(request, upk, gpk):
