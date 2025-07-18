@@ -15,8 +15,8 @@
                 숫자가 작은 사람이 이깁니다
             {% endif %}
         </div>
-        <div class="attacker_score">{{game.attacker.user_score}}</div>
-        <div class="defender_score">{{game.defender.user_score}}</div>
+        <div class="attacker_score">{{game.attacker.username}}의 점수:{{game.attacker.user_score}}</div>
+        <div class="defender_score">{{game.defender.username}}의 점수:{{game.defender.user_score}}</div>
         <div class="result">
             {% if game.winner == user %} <!--수정필요-->
                 승리

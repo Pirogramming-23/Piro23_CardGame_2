@@ -6,6 +6,6 @@
     <p><strong>{{ user.username }}</strong>님이 로그인 중</p>
 
     <a href="/games/{{user.id}}/create" class="button">start</a>
-    <a href="{% url 'games_list' user.id %}" class="button">list</a>
+    <a href="/games/{{user.id}}/list" class="button">list</a>
 </div>
 {% endblock %}
