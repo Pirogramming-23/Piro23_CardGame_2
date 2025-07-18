@@ -10,4 +10,5 @@ urlpatterns = [
     path("<int:upk>/create/", games_create),
     path("<int:upk>/<int:gpk>/cnt_attack", counter_attack),
     path("<int:upk>/<int:gpk>/result", games_result),
+    path('list/<int:upk>', games_list, name='games_list'),
 ]

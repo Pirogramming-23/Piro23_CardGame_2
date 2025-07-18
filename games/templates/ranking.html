@@ -8,8 +8,7 @@
             <!-- for 반복문 안에서 현재 반복 횟수를 1부터 세어주는 내장 변수 -->
             <div>{{ forloop.counter }}위</div>
         </div>
-        {% endif %}
     {% endfor %}
 </div>
 
-<a href="{% url 'games:list' %}" class="btn">전적목록</a>
+<a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>

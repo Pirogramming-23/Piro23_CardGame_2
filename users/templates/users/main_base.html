@@ -15,8 +15,8 @@
             <h2>Pirogrammer Card Game</h2>
         </div>
         {% if user.is_authenticated %}
-            <a href="#">게임하기</a>
-            <a href="#">랭킹보기</a>
+            <a href="/games/{{user.id}}/create">게임하기</a>
+            <a href="{% url 'games:ranking' %}">랭킹보기</a>
             <a href="{% url 'account_logout' %}">로그아웃</a>
         {% else %}
             <a href="{% url 'account_login' %}">로그인</a>
