@@ -8,7 +8,6 @@ from django.shortcuts import get_object_or_404
 def detail(request,pk):
     game = get_object_or_404(Game, id=pk)
     user = request.user #현재 로그인한 유저
-
     status = "게임 종료"
     if not game.is_over:
         if user == game.attacker: #공격자 입장

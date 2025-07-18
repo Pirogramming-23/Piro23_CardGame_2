@@ -32,7 +32,7 @@
             <li>
                 {{ game.attacker.username }} VS {{ game.defender.username }}
                 <a href="/games/{{user.id}}/{{game.id}}/cnt_attack">반격하기</a>
-                <a href="/games/{{user.id}}/{{game.id}}/result">게임정보</a>
+                <a href="{% url 'games:detail' game.pk %}">게임정보</a>
             </li>
         {% empty %}
             <li>반격할 게임 없음</li>
@@ -51,7 +51,7 @@
                 {% else %}
                     <span>결과: 무승부</span>
                 {% endif %}
-                <a href="/games/{{user.id}}/{{game.id}}/result">게임정보</a>
+                <a href="{% url 'games:detail' game.pk %}">게임정보</a>
             </li>
         {% empty %}
             <li>종료된 게임 없음</li>
