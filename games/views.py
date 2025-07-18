@@ -46,4 +46,4 @@ def counter_attack(request, upk, gpk):
 def games_result(request, upk, gpk):
     game = Game.objects.get(id=gpk)
     user = User.objects.get(id=upk) #수정필요
-    return render(request, "gmaes_result.html", {"game":game, "user":user}) 
+    return render(request, "games_result.html", {"game":game, "user":user}) 
