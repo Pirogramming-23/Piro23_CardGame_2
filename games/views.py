@@ -65,20 +65,34 @@ def counter_attack(request, upk, gpk):
         if game.rule == True: #rule이 True일 때는 숫자가 더 큰 사람이 이긴다!
             if game.attacker_card > game.defender_card:
                 game.winner, game.loser = game.attacker, game.defender
+                game.winner.user_score += game.attacker_card
+                game.loser.user_score -= game.defender_card
+                game.winner.save()
+                game.loser.save()
             elif game.attacker_card == game.defender_card: #무승부일 때는 winner와 loser를 None처리 했습니다
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.defender, game.attacker
+                game.winner.user_score += game.defender_card
+                game.loser.user_score -= game.attacker_card
+                game.winner.save()
+                game.loser.save()
 
         else :#rule이 False일 때는 숫자가 더 작은 사람이 이긴다!
             if game.attacker_card > game.defender_card:
                 game.winner, game.loser = game.defender, game.attacker
+                game.winner.user_score += game.defender_card
+                game.loser.user_score -= game.attacker_card
+                game.winner.save()
+                game.loser.save()
             elif game.attacker_card == game.defender_card:
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.attacker, game.defender
-        game.winner.user_score += game.attacker_card
-        game.loser.user_score -= game.defender_card
+                game.winner.user_score += game.attacker_card
+                game.loser.user_score -= game.defender_card
+                game.winner.save()
+                game.loser.save()
         game.is_over = True
         game.save()
         return redirect('games:games_list', upk=request.user.pk) 
