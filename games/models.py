@@ -1,6 +1,4 @@
 from django.db import models
-
-# Create your models here.
 from users.models import User
 class Game(models.Model):
     attacker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='games_as_attacker')

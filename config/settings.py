@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'games',
     #### 내가 추가한 앱 ####
     'users', # 사용자 앱 #
     'django.contrib.sites', # 소셜 로그인과 관련된 앱들 #
@@ -42,6 +41,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google', #구글 로그인
     'allauth.socialaccount.providers.kakao', #카카오 로그인
+    'games',
 ]
 
 MIDDLEWARE = [

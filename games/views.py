@@ -21,14 +21,14 @@ def detail(request,pk):
         'is_attacker' : user == game.attacker,
         'is_defender' : user == game.defender,
     }
-    return render(request,'games/detail.html',context)
+    return render(request,'detail.html',context)
 
 # 유저는 자신이 공격한 게임(상대가 반격하지 않은 경우에 한해) 삭제 가능
 def delete(request,pk):
     game = Game.objects.get(id=pk)
     if request.user == game.attacker and game.defender is None:
         game.delete()
-    return redirect('games:main')
+    return redirect('games:game_list')
 
 
 def ranking(request):
@@ -36,15 +36,15 @@ def ranking(request):
     context ={
         'users':users
     }
-    return render(request,'games/ranking.html',context)
+    return render(request,'ranking.html',context)
 
 
-def games_create(request):
-    users = User.objects.all() #수정할 곳!
+def games_create(request, upk):
+    users = User.objects.exclude(id=upk) #수정할 곳!
     numbers = random.sample(range(1, 11), 5)
     if request.method == "POST":
         Game.objects.create(
-            attacker=User.objects.get(username=request.POST["defender"]), #여기는 유저 넣는곳!!! #수정할 곳!! 중요..!
+            attacker=User.objects.get(id=upk), #여기는 유저 넣는곳!!! #수정할 곳!! 중요..!
             defender=User.objects.get(username = request.POST["defender"]),
             attacker_card = int(request.POST["card"]),
             rule = random.choice([True, False]),
@@ -53,8 +53,8 @@ def games_create(request):
         return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "games_create.html", {"users":users, "numbers":numbers})
 
-def counter_attack(request, pk):
-    game = Game.objects.get(id=pk)
+def counter_attack(request, upk, gpk):
+    game = Game.objects.get(id=gpk)
     numbers = random.sample(range(1, 11), 5)
     if request.method == "POST":
         game.defender_card = int(request.POST["card"])
@@ -77,7 +77,7 @@ def counter_attack(request, pk):
         return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "counter_attack.html", {"numbers":numbers})
 
-def games_result(request, pk):
-    game = Game.objects.get(id=pk)
-    user = User.objects.get() #수정필요
-    return render(request, "games_result.html", {"game":game, "user":user}) 
+def games_result(request, upk, gpk):
+    game = Game.objects.get(id=gpk)
+    user = User.objects.get(id=upk) #수정필요
+    return render(request, "games_result.html", {"game":game, "user":user})
