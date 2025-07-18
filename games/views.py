@@ -56,6 +56,7 @@ def games_create(request, upk):
     return render(request, "games_create.html", {"users":users, "numbers":numbers})
 
 def counter_attack(request, upk, gpk):
+    user = User.objects.get(id=upk)
     game = Game.objects.get(id=gpk)
     numbers = random.sample(range(1, 11), 5)
     if request.method == "POST":
@@ -67,6 +68,7 @@ def counter_attack(request, upk, gpk):
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.defender, game.attacker
+
         else :#rule이 False일 때는 숫자가 더 작은 사람이 이긴다!
             if game.attacker_card > game.defender_card:
                 game.winner, game.loser = game.defender, game.attacker
@@ -74,9 +76,11 @@ def counter_attack(request, upk, gpk):
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.attacker, game.defender
+        game.winner.user_score += game.attacker_card
+        game.loser.user_score -= game.defender_card
         game.is_over = True
         game.save()
-        return redirect("games_list") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
+        return redirect(f"games/{user.id}/list") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "counter_attack.html", {"numbers":numbers})
 
 def games_result(request, upk, gpk):
@@ -84,8 +88,8 @@ def games_result(request, upk, gpk):
     user = User.objects.get(id=upk) #수정필요
     return render(request, "games_result.html", {"game":game, "user":user}) 
 
-def games_list(request):
-    user = get_object_or_404(User, id)
+def games_list(request, upk):
+    user = User.objects.get(id=upk)
     games = Game.objects.filter(attacker=user) | Game.objects.filter(defender=user)
     games = games.order_by('-id')
 

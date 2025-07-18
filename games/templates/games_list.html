@@ -29,10 +29,8 @@
         {% for game in counter_list %}
             <li>
                 {{ game.attacker.username }} VS {{ game.defender.username }}
-                <form action="{% url 'counter_attack' user.id game.id %}" method="get" style="display:inline;">
-                    <button type="submit">CounterAttack</button>
-                </form>
-                <a href="{% url 'games_result' user.id game.id %}">게임정보</a>
+                <a href="/games/{{user.id}}/{{game.id}}/cnt_attack">반격하기</a>
+                <a href="/games/{{user.id}}/{{game.id}}/result">게임정보</a>
             </li>
         {% empty %}
             <li>반격할 게임 없음</li>
@@ -51,7 +49,7 @@
                 {% else %}
                     <span>결과: 무승부</span>
                 {% endif %}
-                <a href="{% url 'games_result' user.id game.id %}">게임정보</a>
+                <a href="/games/{{user.id}}/{{game.id}}/result">게임정보</a>
             </li>
         {% empty %}
             <li>종료된 게임 없음</li>
