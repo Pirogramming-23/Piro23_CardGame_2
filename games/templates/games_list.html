@@ -1,4 +1,7 @@
 {% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -19,7 +22,7 @@
                     {% csrf_token %}
                     <button type="submit">게임취소</button>
                 </form>
-                <a href="{% url 'games:detail' game.pk %}">게임정보</a>
+                <a href="{% url 'games:detail' game.pk %}" class="button">게임정보</a>
             </li>
         {% empty %}
             <li>진행중인 게임 없음</li>
@@ -31,8 +34,8 @@
         {% for game in counter_list %}
             <li>
                 {{ game.attacker.username }} VS {{ game.defender.username }}
-                <a href="/games/{{user.id}}/{{game.id}}/cnt_attack">반격하기</a>
-                <a href="{% url 'games:detail' game.pk %}">게임정보</a>
+                <a href="/games/{{user.id}}/{{game.id}}/cnt_attack" class="button">반격하기</a>
+                <a href="{% url 'games:detail' game.pk %}" class="button">게임정보</a>
             </li>
         {% empty %}
             <li>반격할 게임 없음</li>
@@ -49,9 +52,9 @@
                 {% elif game.winner %}
                     <span>결과: 😭패배😭</span>
                 {% else %}
-                    <span>결과: 무승부</span>
+                    <span>결과: 😵‍💫무승부😵‍💫</span>
                 {% endif %}
-                <a href="{% url 'games:detail' game.pk %}">게임정보</a>
+                <a href="{% url 'games:detail' game.pk %}" class="button">게임정보</a>
             </li>
         {% empty %}
             <li>종료된 게임 없음</li>

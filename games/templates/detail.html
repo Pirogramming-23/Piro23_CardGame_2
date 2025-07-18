@@ -1,4 +1,6 @@
 {% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 {% block content %}
 <div class="game_card">
@@ -11,11 +13,11 @@
             {% csrf_token %}
             <button type="submit">게임 취소</button>
         </form>
-        <a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>
+        <a href="{% url 'games:games_list' user.pk %}" class="button">전적목록</a>
 
     {% elif status == "반격 가능" and is_defender %}
         <a href="/games/{{user.id}}/{{game.id}}/cnt_attack">반격하러 가기</a>
-        <a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>
+        <a href="{% url 'games:games_list' user.pk %}" class="button">전적목록</a>
 
     <!-- 게임 종료 -->
     {% elif status == "게임 종료" %}
@@ -38,7 +40,7 @@
             <p>결과 : 무승부</p>
         {% endif %}
         <p>점수 : {{ user.user_score }}</p>
-        <a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>
+        <a href="{% url 'games:games_list' user.pk %}" class="button">전적목록</a>
     {% endif %}
 </div>
 {% endblock %}

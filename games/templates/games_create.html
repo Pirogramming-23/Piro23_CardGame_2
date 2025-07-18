@@ -1,4 +1,7 @@
 {% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="ko">
@@ -14,7 +17,7 @@
             {% csrf_token %}
             {% for num in numbers %}
                 <label class="card-option">
-                    <input type="radio" name="card" value="{{num}}">{{num}}
+                    <input type="radio" name="card" value="{{num}}" id="card-{{num}}">{{num}}
                 </label><br/>
             {% endfor %}
             
