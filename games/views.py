@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .models import Game
 from users.models import User
 import random
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def games_create(request, upk):
@@ -15,7 +17,7 @@ def games_create(request, upk):
             rule = random.choice([True, False]),
             is_over = False,
         )
-        return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
+        return redirect("games_list") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "games_create.html", {"users":users, "numbers":numbers})
 
 
@@ -40,10 +42,44 @@ def counter_attack(request, upk, gpk):
                 game.winner, game.loser = game.attacker, game.defender
         game.is_over = True
         game.save()
-        return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
+        return redirect("games_list") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "counter_attack.html", {"numbers":numbers})
 
 def games_result(request, upk, gpk):
     game = Game.objects.get(id=gpk)
     user = User.objects.get(id=upk) #수정필요
     return render(request, "games_result.html", {"game":game, "user":user}) 
+
+def games_list(request):
+    user = request.user
+    games = Game.objects.filter(attacker=user) | Game.objects.filter(defender=user)
+    games = games.order_by('-id')
+
+    ongoing_list = []
+    counter_list = []
+    finished_list = []
+
+    for game in games:
+        # 1. 진행중: 내가 공격자이고, defender_card가 None(상대가 아직 반격X)
+        if game.attacker == user and not game.defender_card and not getattr(game, 'is_over', False):
+            ongoing_list.append(game)
+        # 2. 반격대기: 내가 수비자이고, defender_card가 None(내가 아직 반격X)
+        elif game.defender == user and not game.defender_card and not getattr(game, 'is_over', False):
+            counter_list.append(game)
+        # 3. 종료: defender_card가 있고, is_over가 True이거나 winner/loser가 있으면 종료
+        else:
+            finished_list.append(game)
+
+    context = {
+        'user': user,
+        'ongoing_list': ongoing_list,
+        'counter_list': counter_list,
+        'finished_list': finished_list,
+    }
+    return render(request, 'games_list.html', context) 
+
+@require_POST
+def cancel_game(request, game_id):
+    game = get_object_or_404(Game, id=game_id, attacker=request.user, defender_card__isnull=True, is_over=False)
+    game.delete()
+    return redirect('games_list') 

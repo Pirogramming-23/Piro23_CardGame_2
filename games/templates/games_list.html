@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>게임 전적 페이지</title>
+</head>
+<body>
+    <h2>현재 플레이어 : <b>{{ user.username }}</b></h2>
+
+    <h3>진행중(내가 공격자, 상대가 아직 반격X)</h3>
+    <ul>
+        {% for game in ongoing_list %}
+            <li>
+                {{ game.attacker.username }} VS {{ game.defender.username }}
+                <span>진행 중...</span>
+                <form action="{% url 'cancel_game' game.id %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">게임취소</button>
+                </form>
+                <a href="{% url 'games_result' user.id game.id %}">게임정보</a>
+            </li>
+        {% empty %}
+            <li>진행중인 게임 없음</li>
+        {% endfor %}
+    </ul>
+
+    <h3>반격대기(내가 수비자, 나에게 걸린 게임)</h3>
+    <ul>
+        {% for game in counter_list %}
+            <li>
+                {{ game.attacker.username }} VS {{ game.defender.username }}
+                <form action="{% url 'counter_attack' user.id game.id %}" method="get" style="display:inline;">
+                    <button type="submit">CounterAttack</button>
+                </form>
+                <a href="{% url 'games_result' user.id game.id %}">게임정보</a>
+            </li>
+        {% empty %}
+            <li>반격할 게임 없음</li>
+        {% endfor %}
+    </ul>
+
+    <h3>종료(결과 확인)</h3>
+    <ul>
+        {% for game in finished_list %}
+            <li>
+                {{ game.attacker.username }} VS {{ game.defender.username }}
+                {% if game.winner == user %}
+                    <span>결과: 👑승리👑</span>
+                {% elif game.winner %}
+                    <span>결과: 😭패배😭</span>
+                {% else %}
+                    <span>결과: 무승부</span>
+                {% endif %}
+                <a href="{% url 'games_result' user.id game.id %}">게임정보</a>
+            </li>
+        {% empty %}
+            <li>종료된 게임 없음</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
