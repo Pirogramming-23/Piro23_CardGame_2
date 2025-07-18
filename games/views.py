@@ -51,7 +51,7 @@ def games_result(request, upk, gpk):
     return render(request, "games_result.html", {"game":game, "user":user}) 
 
 def games_list(request):
-    user = request.user
+    user = get_object_or_404(User, id)
     games = Game.objects.filter(attacker=user) | Game.objects.filter(defender=user)
     games = games.order_by('-id')
 
@@ -60,13 +60,10 @@ def games_list(request):
     finished_list = []
 
     for game in games:
-        # 1. 진행중: 내가 공격자이고, defender_card가 None(상대가 아직 반격X)
         if game.attacker == user and not game.defender_card and not getattr(game, 'is_over', False):
             ongoing_list.append(game)
-        # 2. 반격대기: 내가 수비자이고, defender_card가 None(내가 아직 반격X)
         elif game.defender == user and not game.defender_card and not getattr(game, 'is_over', False):
             counter_list.append(game)
-        # 3. 종료: defender_card가 있고, is_over가 True이거나 winner/loser가 있으면 종료
         else:
             finished_list.append(game)
 
