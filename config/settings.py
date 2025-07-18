@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google', #구글 로그인
+    'allauth.socialaccount.providers.kakao', #카카오 로그인
 ]
 
 MIDDLEWARE = [
@@ -142,6 +143,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'APP': {
             'client_id': config('GOOGLE_CLIENT_ID'),
             'secret': config('GOOGLE_CLIENT_SECRET'),
+            'key': ''
+        }
+    },
+    'kakao': {
+        'APP': {
+            'client_id' : config('KAKAO_CLIENT_ID'),
+            'secret': '',
             'key': ''
         }
     }
