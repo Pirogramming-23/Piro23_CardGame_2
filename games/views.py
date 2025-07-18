@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import Game
 from users.models import User
 import random
+from django.views.decorators.http import require_POST
+from django.shortcuts import get_object_or_404
 
 def detail(request,pk):
     game = get_object_or_404(Game, id=pk)
@@ -55,6 +57,7 @@ def games_create(request, upk):
     return render(request, "games_create.html", {"users":users, "numbers":numbers})
 
 def counter_attack(request, upk, gpk):
+    user = User.objects.get(id=upk)
     game = Game.objects.get(id=gpk)
     numbers = random.sample(range(1, 11), 5)
     if request.method == "POST":
@@ -66,6 +69,7 @@ def counter_attack(request, upk, gpk):
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.defender, game.attacker
+
         else :#rule이 False일 때는 숫자가 더 작은 사람이 이긴다!
             if game.attacker_card > game.defender_card:
                 game.winner, game.loser = game.defender, game.attacker
@@ -73,9 +77,11 @@ def counter_attack(request, upk, gpk):
                 game.winner, game.loser = None, None
             elif game.attacker_card < game.defender_card :
                 game.winner, game.loser = game.attacker, game.defender
+        game.winner.user_score += game.attacker_card
+        game.loser.user_score -= game.defender_card
         game.is_over = True
         game.save()
-        return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
+        return redirect('games:games_list', upk=request.user.pk) 
     return render(request, "counter_attack.html", {"numbers":numbers})
 
 def games_result(request, upk, gpk):
