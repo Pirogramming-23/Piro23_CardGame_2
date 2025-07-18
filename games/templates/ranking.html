@@ -1,4 +1,6 @@
 {% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 {% block content %}
 <h2>Piro 명예의 전당</h2>
@@ -14,5 +16,5 @@
     {% endfor %}
 </div>
 
-<a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>
+<a href="{% url 'games:games_list' user.pk %}" class="button">전적목록</a>
 {% endblock %}

@@ -1,4 +1,6 @@
 {% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 {% block content %}
 <!DOCTYPE html>
@@ -33,9 +35,11 @@
             {{user.user_score}} <!--수정필요-->
         </div>
             
-        <a href="">
+        <!--<a href="">-->
             <button class="list">전적목록</button><!--수정필요-->
-        </a>
+        <!--</a>-->
+        <a href="{% url 'games:list' %}" class="button">전적목록</a>
+
     </div>
 </body>
 </html>
