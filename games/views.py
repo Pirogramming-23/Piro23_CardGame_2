@@ -41,3 +41,8 @@ def counter_attack(request, pk):
         game.save()
         return redirect("게임 전적 페이지로") #게임 전적 페이지 url넣는 곳 # 수정할 곳!!!
     return render(request, "counter_attack.html", {"numbers":numbers})
+
+def games_result(request, pk):
+    game = Game.objects.get(id=pk)
+    user = User.objects.get() #수정필요
+    return render(request, "gmaes_result.html", {"game":game, "user":user}) 
