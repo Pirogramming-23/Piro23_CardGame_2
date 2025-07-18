@@ -1,3 +1,5 @@
+{% extends 'users/main_base.html' %}
+{% block content %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -11,11 +13,7 @@
     <ul>
         {% for game in ongoing_list %}
             <li>
-                {% if user == game.attacker %}
-                    {{ game.attacker.username }} VS {{ game.defender.username }}
-                {% else %}
-                    {{ game.defender.username }} VS {{ game.attacker.username }}
-                {% endif %}
+                {{ game.attacker.username }} VS {{ game.defender.username }}
                 <span>진행 중...</span>
                 <form action="{% url 'games:delete' game.pk %}" method="post" style="display:inline;">
                     {% csrf_token %}
@@ -32,11 +30,7 @@
     <ul>
         {% for game in counter_list %}
             <li>
-                {% if user == game.attacker %}
-                    {{ game.attacker.username }} VS {{ game.defender.username }}
-                {% else %}
-                    {{ game.defender.username }} VS {{ game.attacker.username }}
-                {% endif %}
+                {{ game.attacker.username }} VS {{ game.defender.username }}
                 <a href="/games/{{user.id}}/{{game.id}}/cnt_attack">반격하기</a>
                 <a href="/games/{{user.id}}/{{game.id}}/result">게임정보</a>
             </li>
@@ -65,3 +59,4 @@
     </ul>
 </body>
 </html>
+{% endblock %}

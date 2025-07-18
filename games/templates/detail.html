@@ -1,3 +1,6 @@
+{% extends 'users/main_base.html' %}
+
+{% block content %}
 <div class="game_card">
     {% if user == game.attacker %}
         <h2>{{ game.pk }} - {{ game.attacker.username }} VS {{ game.defender.username }}</h2>
@@ -47,3 +50,5 @@
         <a href="{% url 'games:games_list' user.pk %}" class="btn">전적목록</a>
     {% endif %}
 </div>
+{% endblock %}
+
