@@ -1,0 +1,12 @@
+{% extends 'users/main_base.html' %}
+{% load static %} 
+
+{% block content %}
+<div class="main-container">
+    <h1>Piro Game</h1>
+    <p><strong>{{ user.username }}</strong>님이 로그인 중</p>
+
+    <a href="/games/{{user.id}}/create" class="button">start</a>
+    <a href="{% url 'games:games_list' user.pk %}" class="button">list</a>
+</div>
+{% endblock %}

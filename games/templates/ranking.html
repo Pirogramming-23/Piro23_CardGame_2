@@ -1,0 +1,20 @@
+{% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block content %}
+<h2>Piro 명예의 전당</h2>
+<hr>
+<div class="ranking_board">
+    {% for user in users %}
+        <div class="rank_box">
+            <div>{{user.username}}</div>
+            <div>{{user.user_score|default:0}}</div>
+            <!-- for 반복문 안에서 현재 반복 횟수를 1부터 세어주는 내장 변수 -->
+            <div>{{ forloop.counter }}위</div>
+        </div>
+    {% endfor %}
+</div>
+
+<a href="{% url 'games:games_list' user.pk %}" class="button">전적목록</a>
+{% endblock %}

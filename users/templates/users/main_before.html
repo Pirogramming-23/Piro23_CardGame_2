@@ -1,0 +1,15 @@
+{% extends 'users/main_base.html' %}
+{% load socialaccount %}
+{% load static %} 
+
+{% block content %}
+<div class="main-container">
+    <h1>Piro Game</h1>
+    <a href="{% url 'account_login' %}" class="button">start</a>
+
+    <div class="social-login-buttons">
+        <a href="{% provider_login_url 'google' %}" class="button">Google로 로그인</a>
+        <a href="{% provider_login_url 'kakao' %}" class="button">KaKao로 로그인</a>
+    </div>
+</div>
+{% endblock %}

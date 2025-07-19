@@ -1,0 +1,37 @@
+{% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 공격 페이지</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">내가 고른 카드:</div>
+        <form method="post">
+            {% csrf_token %}
+            {% for num in numbers %}
+                <label class="card-option">
+                    <input type="radio" name="card" value="{{num}}" id="card-{{num}}">{{num}}
+                </label><br/>
+            {% endfor %}
+            
+            <div class="label">Defender:</div>
+            <select name="defender" class="defender-options">
+                <option value="">--선택--</option>
+                {% for user in users %}
+                    <option value="{{user.username}}">{{user.username}}</option>
+                {% endfor %}
+            </select>
+
+            <button id="attack-button">attack</button>
+        </form>
+    </div>
+</body>
+</html>
+{% endblock %}

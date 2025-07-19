@@ -1,0 +1,46 @@
+{% extends 'users/main_base.html' %}
+{% load static %} 
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>반격 후 결과 페이지</title>
+</head>
+<body>
+    <div class="container">
+        <div class="user_vs_user">{{game.attacker}}vs{{game.defender}}</div>
+        <div class="rule">
+            {% if game.rule == True %}
+                숫자가 큰 사람이 이깁니다
+            {% else %}
+                숫자가 작은 사람이 이깁니다
+            {% endif %}
+        </div>
+        <div class="attacker_score">{{game.attacker.username}}의 점수:{{game.attacker.user_score}}</div>
+        <div class="defender_score">{{game.defender.username}}의 점수:{{game.defender.user_score}}</div>
+        <div class="result">
+            {% if game.winner == user %} <!--수정필요-->
+                승리
+            {% elif game.loser == user %} <!--수정필요-->
+                패배
+            {% else %}
+                무승부
+            {% endif %}
+        </div>
+        <div class="user_score">
+            {{user.user_score}} <!--수정필요-->
+        </div>
+            
+        <!--<a href="">-->
+            <button class="list">전적목록</button><!--수정필요-->
+        <!--</a>-->
+        <a href="{% url 'games:list' %}" class="button">전적목록</a>
+
+    </div>
+</body>
+</html>
+{% endblock %}
